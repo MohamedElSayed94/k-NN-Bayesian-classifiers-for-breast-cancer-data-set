@@ -1,0 +1,54 @@
+#Mohamed El-Sayed
+
+import numpy as np
+from sklearn.cross_validation import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+
+
+"""to open the training set and save it in g and h"""
+data=open('Cancer_train.txt','r')
+c=[]
+for line in data:
+    i=line.split()
+    c.append(i)
+
+g=[]
+h=[]
+for i in c:
+    g.append([i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8]])
+    h.append([i[9]])
+xx=np.array(g)
+p=np.array(h)
+yy=np.ravel(p)
+"""to open the test set and save it in o and q"""
+data=open('Cancer_test.txt','r')
+a=[]
+for line in data:
+    i=line.split()
+    a.append(i)
+
+o=[]
+for i in a:
+    o.append([i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8]])
+x=np.array(o)
+
+
+"""KNeighborsClassifier takes the training sets and test sets to classify the test set"""
+X_train=xx
+X_test=x
+y_train=yy
+
+knn=KNeighborsClassifier(n_neighbors=3)
+knn.fit(X_train,y_train)
+y_pred=knn.predict(X_test)
+
+"""to print out the results in file Cancer_test_knn.txt"""
+xf=np.array(o)
+yf=np.array(y_pred)
+zf=np.c_[xf,yf]
+#print zf
+f=open('Cancer_test_knn.txt','w')
+for row in zf:
+    print row
+    f.write("%s\n" % str(row))
+f.close()
